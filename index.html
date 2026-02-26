@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema completo de e-commerce para lojas de roupas. Pagamentos integrados, frete automatico, gestao de estoque e muito mais. Desenvolvido por Bugarin Tecnologia.">
+    <meta name="keywords" content="e-commerce roupas, loja virtual, sistema de vendas, marketplace moda, bugarin tecnologia">
+    <title>Cloth - Sistema de E-commerce para Lojas de Roupas | Bugarin Tecnologia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7C3AED;
+            --primary-light: #EDE9FE;
+            --secondary: #EC4899;
+            --accent: #F59E0B;
+            --dark: #1F2937;
+            --gray: #6B7280;
+            --light: #F9FAFB;
+            --white: #FFFFFF;
+            --gradient: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-whatsapp:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-lg {
+            padding: 16px 32px;
+            font-size: 18px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            background: linear-gradient(180deg, var(--primary-light) 0%, var(--white) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: var(--gradient);
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: var(--secondary);
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero-text h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 32px;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .hero-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: white;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .hero-badge i {
+            color: var(--primary);
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-mockup {
+            width: 100%;
+            max-width: 550px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-mockup:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 120px 0;
+            background: var(--white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .feature-card {
+            padding: 32px;
+            background: var(--light);
+            border-radius: 24px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            background: var(--white);
+        }
+
+        .feature-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            margin: 0 auto 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            font-size: 15px;
+        }
+
+        /* Integrations Section */
+        .integrations {
+            padding: 120px 0;
+            background: var(--dark);
+            color: var(--white);
+        }
+
+        .integrations .section-badge {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .integrations .section-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .integrations-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .integration-card {
+            padding: 32px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .integration-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .integration-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 16px;
+        }
+
+        .integration-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .integration-card p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 120px 0;
+            background: var(--light);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            position: relative;
+        }
+
+        .steps-grid::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background: var(--gradient);
+            z-index: 0;
+        }
+
+        .step-card {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 auto 24px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .step-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .step-card p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Showcase Section */
+        .showcase {
+            padding: 120px 0;
+            background: var(--white);
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .showcase-content h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .showcase-content p {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 32px;
+        }
+
+        .showcase-list {
+            list-style: none;
+        }
+
+        .showcase-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .showcase-list .check {
+            width: 28px;
+            height: 28px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .showcase-list h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .showcase-list p {
+            font-size: 14px;
+            color: var(--gray);
+            margin: 0;
+        }
+
+        .showcase-image {
+            display: flex;
+            justify-content: center;
+        }
+
+        .showcase-image img {
+            max-width: 100%;
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Evolution Section */
+        .evolution {
+            padding: 120px 0;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+        }
+
+        .evolution-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            margin: 0 auto 32px;
+        }
+
+        .evolution h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .evolution p {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 48px;
+        }
+
+        .evolution-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .evolution-feature {
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .evolution-feature i {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .evolution-feature h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .evolution-feature p {
+            font-size: 14px;
+            opacity: 0.8;
+            margin: 0;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 120px 0;
+            background: var(--light);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .testimonial-card {
+            padding: 32px;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .testimonial-stars {
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .testimonial-text {
+            font-size: 16px;
+            color: var(--gray);
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+        }
+
+        .testimonial-role {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 120px 0;
+            background: var(--dark);
+            text-align: center;
+            color: white;
+        }
+
+        .cta h2 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta p {
+            font-size: 20px;
+            opacity: 0.8;
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .cta .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .cta .btn-whatsapp:hover {
+            background: #128C7E;
+        }
+
+        .cta .btn-email {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cta .btn-email:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 0 30px;
+            background: #111827;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-brand p {
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        .footer-contact {
+            text-align: right;
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        .footer-contact-item i {
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .developer-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .developer-badge span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 40px;
+            }
+
+            .hero-text p {
+                margin: 0 auto 32px;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-badges {
+                justify-content: center;
+            }
+
+            .hero-image {
+                display: none;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .integrations-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps-grid::before {
+                display: none;
+            }
+
+            .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .showcase-image {
+                order: -1;
+            }
+
+            .evolution-features {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-contact {
+                text-align: left;
+            }
+
+            .footer-contact-item {
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-text h1 {
+                font-size: 32px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .integrations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .cta h2 {
+                font-size: 32px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-contact {
+                text-align: center;
+            }
+
+            .footer-contact-item {
+                justify-content: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <span class="logo-text"><span>Cloth</span></span>
+                </a>
+                <div class="nav-links">
+                    <a href="#features">Recursos</a>
+                    <a href="#integrations">Integracoes</a>
+                    <a href="#how-it-works">Como Funciona</a>
+                    <a href="#contact" class="btn btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Fale Conosco
+                    </a>
+                </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text animate">
+                    <h1>Sua loja de roupas <span>online</span> em poucos dias</h1>
+                    <p>Sistema completo de e-commerce com pagamentos integrados, calculo automatico de frete, gestao de estoque por tamanho e cor, e muito mais. Tudo pronto para vender.</p>
+                    <div class="hero-buttons">
+                        <a href="https://wa.me/5521979784672?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20o%20sistema%20Cloth" target="_blank" class="btn btn-whatsapp btn-lg">
+                            <i class="fab fa-whatsapp"></i> Quero Minha Loja
+                        </a>
+                        <a href="#features" class="btn btn-outline btn-lg">
+                            Ver Recursos
+                        </a>
+                    </div>
+                    <div class="hero-badges">
+                        <div class="hero-badge">
+                            <i class="fas fa-credit-card"></i>
+                            PIX, Cartao e Boleto
+                        </div>
+                        <div class="hero-badge">
+                            <i class="fas fa-truck"></i>
+                            Frete Automatico
+                        </div>
+                        <div class="hero-badge">
+                            <i class="fas fa-box"></i>
+                            Controle de Estoque
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image animate delay-2">
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80" alt="Loja de Roupas Online" class="hero-mockup">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Recursos</span>
+                <h2 class="section-title">Tudo que sua loja precisa</h2>
+                <p class="section-subtitle">Sistema completo desenvolvido especificamente para lojas de moda e vestuario</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Variacoes de Produtos</h3>
+                    <p>Cadastre produtos com multiplas cores e tamanhos. Cada variacao com seu proprio estoque e preco adicional se necessario.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <h3>Galeria de Fotos</h3>
+                    <p>Multiplas imagens por produto com ordenacao. Destaque a foto principal e mostre todos os angulos das pecas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3>Promocoes e Descontos</h3>
+                    <p>Configure precos promocionais com calculo automatico do percentual de desconto. Destaque as ofertas na vitrine.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Carrinho Inteligente</h3>
+                    <p>Carrinho persistente que salva os itens do cliente. Recuperacao de carrinhos abandonados.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Lista de Desejos</h3>
+                    <p>Clientes podem salvar produtos favoritos para comprar depois. Aumente a conversao com lembretes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <h3>Gestao de Pedidos</h3>
+                    <p>Acompanhe todos os pedidos com status detalhado. Historico completo e rastreamento de envios.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Newsletter</h3>
+                    <p>Capture emails de clientes interessados. Base para campanhas de marketing e promocoes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <h3>Categorias Hierarquicas</h3>
+                    <p>Organize produtos em categorias e subcategorias. Navegacao intuitiva para seus clientes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Dashboard Administrativo</h3>
+                    <p>Painel completo para gerenciar produtos, pedidos, clientes e acompanhar metricas de vendas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations Section -->
+    <section class="integrations" id="integrations">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Integracoes</span>
+                <h2 class="section-title">Conectado com os melhores</h2>
+                <p class="section-subtitle">Integracoes prontas com as principais plataformas do mercado brasileiro</p>
+            </div>
+            <div class="integrations-grid">
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3>PIX</h3>
+                    <p>Pagamento instantaneo com QR Code e copia e cola</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>Cartao de Credito</h3>
+                    <p>Parcelamento em ate 12x via PagBank</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <i class="fas fa-barcode"></i>
+                    </div>
+                    <h3>Boleto Bancario</h3>
+                    <p>Geracao automatica com codigo de barras</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Melhor Envio</h3>
+                    <p>Calculo de frete com todas as transportadoras</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3>Correios</h3>
+                    <p>PAC, SEDEX e todas as modalidades</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <h3>Etiquetas</h3>
+                    <p>Geracao automatica de etiquetas de envio</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Rastreamento</h3>
+                    <p>Acompanhamento em tempo real dos envios</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>SSL/HTTPS</h3>
+                    <p>Seguranca total para seus clientes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Como Funciona</span>
+                <h2 class="section-title">Simples e rapido</h2>
+                <p class="section-subtitle">Em poucos passos sua loja estara pronta para vender</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Entre em Contato</h3>
+                    <p>Converse conosco pelo WhatsApp e conte sobre seu negocio</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Personalizacao</h3>
+                    <p>Adaptamos o sistema com sua marca, cores e categorias</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Cadastro de Produtos</h3>
+                    <p>Voce cadastra seus produtos ou nos enviamos as informacoes</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Comece a Vender</h3>
+                    <p>Sua loja online esta pronta! Divulgue e venda</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showcase Section -->
+    <section class="showcase">
+        <div class="container">
+            <div class="showcase-grid">
+                <div class="showcase-content">
+                    <h2>Experiencia de compra completa para seus clientes</h2>
+                    <p>Seus clientes terao uma jornada de compra fluida, do primeiro acesso ate o recebimento do produto.</p>
+                    <ul class="showcase-list">
+                        <li>
+                            <div class="check"><i class="fas fa-check"></i></div>
+                            <div>
+                                <h4>Conta do Cliente</h4>
+                                <p>Cadastro, historico de pedidos, enderecos salvos e lista de desejos</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="check"><i class="fas fa-check"></i></div>
+                            <div>
+                                <h4>Calculo de Frete pelo CEP</h4>
+                                <p>Cliente informa o CEP e ve todas as opcoes de entrega com preco e prazo</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="check"><i class="fas fa-check"></i></div>
+                            <div>
+                                <h4>Checkout Seguro</h4>
+                                <p>Pagamento protegido com PIX, cartao ou boleto. Confirmacao imediata</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="check"><i class="fas fa-check"></i></div>
+                            <div>
+                                <h4>Rastreamento de Pedidos</h4>
+                                <p>Acompanhamento em tempo real da entrega com codigo de rastreio</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="showcase-image">
+                    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=80" alt="Cliente comprando roupas online">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Evolution Section -->
+    <section class="evolution">
+        <div class="container">
+            <div class="evolution-icon">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <h2>Sistema em Constante Evolucao</h2>
+            <p>O Cloth nao e um software estatico. Nosso sistema esta em desenvolvimento continuo, e voce pode solicitar novas funcionalidades e melhorias a qualquer momento. Seu negocio cresce, e o sistema cresce junto.</p>
+            <div class="evolution-features">
+                <div class="evolution-feature">
+                    <i class="fas fa-comments"></i>
+                    <h4>Sugestoes de Clientes</h4>
+                    <p>Ouvimos nossos parceiros e implementamos funcionalidades relevantes</p>
+                </div>
+                <div class="evolution-feature">
+                    <i class="fas fa-sync-alt"></i>
+                    <h4>Atualizacoes Frequentes</h4>
+                    <p>Novas funcionalidades e melhorias adicionadas regularmente</p>
+                </div>
+                <div class="evolution-feature">
+                    <i class="fas fa-headset"></i>
+                    <h4>Suporte Dedicado</h4>
+                    <p>Nossa equipe esta pronta para ajudar no que for preciso</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Depoimentos</span>
+                <h2 class="section-title">O que nossos clientes dizem</h2>
+                <p class="section-subtitle">Lojas que ja estao vendendo com o Cloth</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"O sistema de variacoes por cor e tamanho e perfeito para nossa loja. Conseguimos organizar todo o estoque de forma clara e os clientes adoram!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MS</div>
+                        <div>
+                            <div class="testimonial-name">Marina Santos</div>
+                            <div class="testimonial-role">Boutique Elegance - SP</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"A integracao com o Melhor Envio foi um divisor de aguas. Antes perdiamos muito tempo cotando fretes, agora e tudo automatico!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">RC</div>
+                        <div>
+                            <div class="testimonial-name">Roberto Costa</div>
+                            <div class="testimonial-role">Street Wear Store - RJ</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Migramos nossa loja fisica para o online e o resultado foi incrivel. O PIX integrado facilitou muito os pagamentos!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AF</div>
+                        <div>
+                            <div class="testimonial-name">Ana Ferreira</div>
+                            <div class="testimonial-role">Closet da Ana - MG</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="contact">
+        <div class="container">
+            <h2>Pronto para ter sua loja online?</h2>
+            <p>Entre em contato e descubra como o Cloth pode transformar seu negocio de moda</p>
+            <div class="cta-buttons">
+                <a href="https://wa.me/5521979784672?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20o%20sistema%20Cloth%20para%20minha%20loja%20de%20roupas" target="_blank" class="btn btn-whatsapp btn-lg">
+                    <i class="fab fa-whatsapp"></i> Falar pelo WhatsApp
+                </a>
+                <a href="mailto:matheus.reis@bugarintec.com.br?subject=Interesse%20no%20Sistema%20Cloth" class="btn btn-email btn-lg">
+                    <i class="fas fa-envelope"></i> Enviar Email
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <span class="logo-text"><span>Cloth</span></span>
+                    </a>
+                    <p>Sistema completo de e-commerce para lojas de roupas e moda. Venda mais, gerencie melhor, cresca seu negocio.</p>
+                </div>
+                <div class="footer-contact">
+                    <h4 class="footer-title">Entre em Contato</h4>
+                    <div class="footer-contact-item">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>(21) 97978-4672</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>matheus.reis@bugarintec.com.br</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Cloth. Todos os direitos reservados.</p>
+                <div class="developer-badge">
+                    <i class="fas fa-code"></i>
+                    Desenvolvido por <span>Bugarin Tecnologia</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .integration-card, .step-card, .testimonial-card, .showcase-list li, .evolution-feature').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
